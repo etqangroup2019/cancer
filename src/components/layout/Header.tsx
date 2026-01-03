@@ -51,7 +51,7 @@ export function Header({ onMenuClick, showMenuButton = false }: HeaderProps) {
               <Menu className="h-5 w-5" />
             </Button>
           )}
-          
+
           <div className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Shield className="h-5 w-5" />
@@ -86,30 +86,20 @@ export function Header({ onMenuClick, showMenuButton = false }: HeaderProps) {
             </Tooltip>
           )}
 
-          {/* Language Switcher */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative">
-                <Languages className="h-5 w-5" />
-                <span className="absolute -bottom-1 -end-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                  {language.toUpperCase()}
-                </span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setLanguage('ar')}>
-                <span className="font-arabic">العربية</span>
-                {language === 'ar' && <span className="ms-2">✓</span>}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('en')}>
-                English
-                {language === 'en' && <span className="ms-2">✓</span>}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* Language Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
+            className="h-9 w-9"
+          >
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-sm transition-transform active:scale-90">
+              {language.toUpperCase()}
+            </div>
+          </Button>
 
           {/* Theme Toggle */}
-          <Button variant="ghost" size="icon" onClick={toggleTheme}>
+          <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-9 w-9">
             {theme === 'light' ? (
               <Moon className="h-5 w-5" />
             ) : (
