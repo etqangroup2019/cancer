@@ -92,7 +92,7 @@ const references: Reference[] = [
     },
     version: '2016 (Active)',
     year: 2016,
-    url: 'https://www.nature.com/articles/s41585-018-0112-6', // Using a summary article URL or PDF link if available
+    url: '/protocols/SIOP-RTSG2016.pdf',
   },
 ];
 
