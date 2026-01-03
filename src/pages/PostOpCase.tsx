@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCase } from '@/contexts/CaseContext';
 import { CancerTypeSelector } from '@/components/case/CancerTypeSelector';
-import { PatientDataForm } from '@/components/case/PatientDataForm';
 import { PreOpDataForm } from '@/components/case/PreOpDataForm';
 import { PathologyDataForm } from '@/components/case/PathologyDataForm';
 import { PostOpTNMForm } from '@/components/case/PostOpTNMForm';
@@ -13,14 +12,13 @@ import { calculatePostOpKidneyStage, StagingResult as StagingResultType } from '
 import { getPostOpTreatmentRecommendations, TreatmentRecommendation } from '@/lib/treatmentEngine';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { ArrowRight, ArrowLeft, Calculator, Pill, Save, RotateCcw } from 'lucide-react';
-import { toast } from 'sonner';
+import { ArrowRight, ArrowLeft, Calculator, Pill, RotateCcw } from 'lucide-react';
 
-const STEPS = ['cancer', 'patient', 'preop', 'pathology', 'ptnm', 'staging', 'treatment'];
+const STEPS = ['cancer', 'preop', 'pathology', 'ptnm', 'staging', 'treatment'];
 
 export default function PostOpCase() {
   const { t, language, direction } = useLanguage();
-  const { currentCase, createNewCase, setCancerType, setCaseType, setStage, saveCase, resetCurrentCase } = useCase();
+  const { currentCase, createNewCase, setCancerType, setCaseType, setStage, resetCurrentCase } = useCase();
   const navigate = useNavigate();
 
   const [step, setStep] = useState(0);
@@ -49,7 +47,7 @@ export default function PostOpCase() {
     if (result) {
       setStagingResult(result);
       setStage(result.stage);
-      setStep(5);
+      setStep(4);
     }
   };
 
@@ -58,12 +56,7 @@ export default function PostOpCase() {
 
     const recs = getPostOpTreatmentRecommendations(currentCase, stagingResult);
     setRecommendations(recs);
-    setStep(6);
-  };
-
-  const handleSave = () => {
-    saveCase();
-    toast.success(language === 'ar' ? 'تم حفظ الحالة بنجاح' : 'Case saved successfully');
+    setStep(5);
   };
 
   const handleReset = () => {
@@ -80,14 +73,12 @@ export default function PostOpCase() {
       case 0:
         return !!selectedCancer;
       case 1:
-        return !!(currentCase?.patient.age && currentCase?.patient.gender);
+        return !!(currentCase?.patient.age && currentCase?.preOp?.surgeryType);
       case 2:
-        return !!(currentCase?.preOp?.surgeryType);
-      case 3:
         return !!(currentCase?.pathology?.histology && currentCase?.pathology?.grade);
-      case 4:
+      case 3:
         return !!(currentCase?.postOpTNM?.pT && currentCase?.postOpTNM?.pN);
-      case 5:
+      case 4:
         return !!stagingResult;
       default:
         return true;
@@ -102,12 +93,11 @@ export default function PostOpCase() {
   const getStepTitle = () => {
     switch (step) {
       case 0: return language === 'ar' ? 'نوع السرطان' : 'Cancer Type';
-      case 1: return language === 'ar' ? 'بيانات المريض' : 'Patient Data';
-      case 2: return language === 'ar' ? 'بيانات قبل العملية' : 'Pre-Op Data';
-      case 3: return language === 'ar' ? 'نتيجة العينة' : 'Pathology';
-      case 4: return language === 'ar' ? 'التصنيف المرضي' : 'pTNM';
-      case 5: return language === 'ar' ? 'المرحلة النهائية' : 'Final Stage';
-      case 6: return language === 'ar' ? 'التوصيات العلاجية' : 'Treatment';
+      case 1: return language === 'ar' ? 'بيانات ما قبل العملية' : 'Pre-Op Data';
+      case 2: return language === 'ar' ? 'نتيجة العينة' : 'Pathology';
+      case 3: return language === 'ar' ? 'التصنيف المرضي' : 'pTNM';
+      case 4: return language === 'ar' ? 'المرحلة النهائية' : 'Final Stage';
+      case 5: return language === 'ar' ? 'التوصيات العلاجية' : 'Treatment';
       default: return '';
     }
   };
@@ -144,12 +134,11 @@ export default function PostOpCase() {
         {step === 0 && (
           <CancerTypeSelector selected={selectedCancer} onSelect={handleCancerSelect} />
         )}
-        {step === 1 && <PatientDataForm />}
-        {step === 2 && <PreOpDataForm />}
-        {step === 3 && <PathologyDataForm />}
-        {step === 4 && <PostOpTNMForm />}
-        {step === 5 && stagingResult && <StagingResult result={stagingResult} />}
-        {step === 6 && recommendations && (
+        {step === 1 && <PreOpDataForm />}
+        {step === 2 && <PathologyDataForm />}
+        {step === 3 && <PostOpTNMForm />}
+        {step === 4 && stagingResult && <StagingResult result={stagingResult} />}
+        {step === 5 && recommendations && (
           <TreatmentRecommendations recommendations={recommendations} />
         )}
       </div>
@@ -166,28 +155,28 @@ export default function PostOpCase() {
         </Button>
 
         <div className="flex gap-2">
-          {step === 6 && (
+          {step === 5 && (
             <Button variant="outline" onClick={handleReset} className="w-full sm:w-auto">
               <RotateCcw className="h-4 w-4 me-2" />
               {t('action.reset')}
             </Button>
           )}
 
-          {step === 4 && (
+          {step === 3 && (
             <Button onClick={handleCalculateStaging} disabled={!canProceed()}>
               <Calculator className="h-4 w-4 me-2" />
               {t('action.calculate')}
             </Button>
           )}
 
-          {step === 5 && (
+          {step === 4 && (
             <Button onClick={handleGetRecommendations}>
               <Pill className="h-4 w-4 me-2" />
               {t('action.getRecommendations')}
             </Button>
           )}
 
-          {step < 4 && (
+          {step < 3 && (
             <Button onClick={() => setStep(step + 1)} disabled={!canProceed()}>
               {t('action.next')}
               <NextIcon className="h-4 w-4 ms-2" />

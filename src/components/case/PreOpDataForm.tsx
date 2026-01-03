@@ -12,16 +12,35 @@ import {
 
 export function PreOpDataForm() {
   const { language, t } = useLanguage();
-  const { currentCase, updatePreOpData } = useCase();
+  const { currentCase, updatePreOpData, updatePatientData } = useCase();
 
   if (!currentCase) return null;
 
-  const preOp = currentCase.preOp;
+  const { preOp, patient } = currentCase;
 
   return (
     <div className="space-y-6">
       <h2 className="text-lg font-semibold">{t('preop.title')}</h2>
       <p className="text-sm text-muted-foreground">{t('preop.desc')}</p>
+
+      <div className="grid gap-4 sm:grid-cols-2 border-b pb-6">
+        {/* Age moved from Patient Data */}
+        <div className="space-y-2 sm:col-span-2">
+          <Label htmlFor="age">{t('patient.age')}</Label>
+          <div className="flex items-center gap-2">
+            <Input
+              id="age"
+              type="number"
+              min={0}
+              max={120}
+              value={patient.age ?? ''}
+              onChange={(e) => updatePatientData({ age: parseInt(e.target.value) || null })}
+              className="flex-1"
+            />
+            <span className="text-sm text-muted-foreground">{t('misc.years')}</span>
+          </div>
+        </div>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         {/* Clinical Stage Before Surgery */}
