@@ -79,6 +79,21 @@ const references: Reference[] = [
     year: 2024,
     url: 'https://uroweb.org/guidelines/renal-cell-carcinoma',
   },
+  {
+    id: 'siop-wilms',
+    source: 'SIOP-RTSG',
+    title: {
+      en: 'SIOP-RTSG 2016 - Wilms Tumor Protocol',
+      ar: 'بروتوكول SIOP-RTSG 2016 - ورم ويلمز',
+    },
+    description: {
+      en: 'International Society of Paediatric Oncology Renal Tumour Study Group (RTSG) Clinical Practice Guidelines',
+      ar: 'إرشادات الممارسة السريرية لمجموعة دراسة أورام الكلى التابعة للجمعية الدولية لطب أورام الأطفال',
+    },
+    version: '2016 (Active)',
+    year: 2016,
+    url: 'https://www.nature.com/articles/s41585-018-0112-6', // Using a summary article URL or PDF link if available
+  },
 ];
 
 export default function References() {
