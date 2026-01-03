@@ -92,7 +92,7 @@ const references: Reference[] = [
     },
     version: '2016 (Active)',
     year: 2016,
-    url: 'protocols/SIOP-RTSG2016.pdf',
+    url: '/cancer/protocols/SIOP-RTSG2016.pdf',
   },
 ];
 
