@@ -21,6 +21,8 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Navigation
     'nav.newCase': 'حالة جديدة',
+    'newCase.title': 'حالة جديدة',
+    'newCase.subtitle': 'تقييم خطة العلاج المبدئية بناءً على المعطيات السريرية',
     'nav.postOpCase': 'ما بعد العملية',
     'nav.references': 'المراجع',
     'nav.settings': 'الإعدادات',
@@ -203,6 +205,8 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Navigation
     'nav.newCase': 'New Case',
+    'newCase.title': 'New Case',
+    'newCase.subtitle': 'Initial treatment plan assessment based on clinical data',
     'nav.postOpCase': 'Post-Op Case',
     'nav.references': 'References',
     'nav.settings': 'Settings',

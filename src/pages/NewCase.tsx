@@ -42,7 +42,7 @@ export default function NewCase() {
 
   const handleCalculateStaging = () => {
     if (!currentCase?.tnm) return;
-    
+
     const result = calculateKidneyStage(currentCase.tnm);
     if (result) {
       setStagingResult(result);
@@ -53,7 +53,7 @@ export default function NewCase() {
 
   const handleGetRecommendations = () => {
     if (!currentCase || !stagingResult) return;
-    
+
     const recs = getKidneyTreatmentRecommendations(currentCase, stagingResult);
     setRecommendations(recs);
     setStep(5);
@@ -95,15 +95,39 @@ export default function NewCase() {
   const NextIcon = direction === 'rtl' ? ArrowLeft : ArrowRight;
   const BackIcon = direction === 'rtl' ? ArrowRight : ArrowLeft;
 
+  const getStepTitle = () => {
+    switch (step) {
+      case 0: return language === 'ar' ? 'نوع السرطان' : 'Cancer Type';
+      case 1: return language === 'ar' ? 'بيانات المريض' : 'Patient Data';
+      case 2: return language === 'ar' ? 'بيانات الورم' : 'Tumor Data';
+      case 3: return language === 'ar' ? 'تصنيف TNM' : 'TNM Classification';
+      case 4: return language === 'ar' ? 'مرحلة الورم' : 'Tumor Stage';
+      case 5: return language === 'ar' ? 'التوصيات العلاجية' : 'Treatment Recommendations';
+      default: return '';
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
+      {/* Header */}
+      <div className="text-center space-y-2">
+        <h1 className="text-2xl font-bold">
+          {t('newCase.title')}
+        </h1>
+        <p className="text-muted-foreground">
+          {t('newCase.subtitle')}
+        </p>
+      </div>
+
       {/* Progress */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">
-            {language === 'ar' ? `الخطوة ${step + 1} من ${STEPS.length}` : `Step ${step + 1} of ${STEPS.length}`}
+            {getStepTitle()}
           </span>
-          <span className="font-medium">{Math.round(progress)}%</span>
+          <span className="font-medium">
+            {language === 'ar' ? `${step + 1} من ${STEPS.length}` : `${step + 1} of ${STEPS.length}`}
+          </span>
         </div>
         <Progress value={progress} className="h-2" />
       </div>
