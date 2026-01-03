@@ -13,7 +13,7 @@ export function AppLayout({ children }: AppLayoutProps) {
   return (
     <div className="min-h-screen bg-background">
       <Header
-        showMenuButton={false}
+        showMenuButton={true}
         onMenuClick={() => setMobileNavOpen(true)}
       />
 
