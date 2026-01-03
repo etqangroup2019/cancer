@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Medical Blue Theme - Light Mode */
+    --background: 210 40% 98%;
+    --foreground: 210 50% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 50% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 50% 10%;
+
+    /* Primary - Medical Blue */
+    --primary: 200 80% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Soft Teal */
+    --secondary: 175 40% 94%;
+    --secondary-foreground: 175 60% 25%;
+
+    /* Muted */
+    --muted: 210 30% 96%;
+    --muted-foreground: 210 20% 45%;
+
+    /* Accent - Healing Green */
+    --accent: 160 50% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive - Warning Red */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Warning - Amber */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Success - Medical Green */
+    --success: 142 70% 40%;
+    --success-foreground: 0 0% 100%;
+
+    /* Info - Clinical Blue */
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+
+    --border: 210 30% 90%;
+    --input: 210 30% 90%;
+    --ring: 200 80% 40%;
+
+    --radius: 0.75rem;
+
+    /* Medical specific tokens */
+    --staging-t: 200 80% 45%;
+    --staging-n: 280 60% 55%;
+    --staging-m: 340 70% 50%;
+    --neoadjuvant: 175 60% 40%;
+    --adjuvant: 260 60% 55%;
+
+    /* Sidebar */
+    --sidebar-background: 210 40% 98%;
+    --sidebar-foreground: 210 50% 20%;
+    --sidebar-primary: 200 80% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 175 40% 94%;
+    --sidebar-accent-foreground: 175 60% 25%;
+    --sidebar-border: 210 30% 90%;
+    --sidebar-ring: 200 80% 40%;
+  }
+
+  .dark {
+    /* Medical Blue Theme - Dark Mode */
+    --background: 215 35% 10%;
+    --foreground: 210 30% 95%;
+
+    --card: 215 35% 14%;
+    --card-foreground: 210 30% 95%;
+
+    --popover: 215 35% 14%;
+    --popover-foreground: 210 30% 95%;
+
+    /* Primary - Lighter Blue for dark */
+    --primary: 200 75% 55%;
+    --primary-foreground: 215 35% 10%;
+
+    /* Secondary - Muted Teal */
+    --secondary: 175 30% 20%;
+    --secondary-foreground: 175 40% 80%;
+
+    /* Muted */
+    --muted: 215 30% 18%;
+    --muted-foreground: 210 20% 60%;
+
+    /* Accent - Brighter Green */
+    --accent: 160 55% 50%;
+    --accent-foreground: 215 35% 10%;
+
+    /* Destructive */
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Warning */
+    --warning: 38 85% 55%;
+    --warning-foreground: 0 0% 10%;
+
+    /* Success */
+    --success: 142 60% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Info */
+    --info: 199 80% 55%;
+    --info-foreground: 0 0% 10%;
+
+    --border: 215 30% 22%;
+    --input: 215 30% 22%;
+    --ring: 200 75% 55%;
+
+    /* Staging colors - slightly brighter for dark mode */
+    --staging-t: 200 75% 55%;
+    --staging-n: 280 55% 60%;
+    --staging-m: 340 65% 55%;
+    --neoadjuvant: 175 55% 50%;
+    --adjuvant: 260 55% 60%;
+
+    /* Sidebar */
+    --sidebar-background: 215 35% 12%;
+    --sidebar-foreground: 210 30% 90%;
+    --sidebar-primary: 200 75% 55%;
+    --sidebar-primary-foreground: 215 35% 10%;
+    --sidebar-accent: 175 30% 20%;
+    --sidebar-accent-foreground: 175 40% 80%;
+    --sidebar-border: 215 30% 22%;
+    --sidebar-ring: 200 75% 55%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* RTL Support */
+  [dir="rtl"] body,
+  [dir="rtl"] {
+    font-family: 'Cairo', sans-serif;
+  }
+
+  [dir="rtl"] .font-arabic {
+    font-family: 'Cairo', sans-serif;
+  }
+}
+
+@layer components {
+  /* Medical Card Styles */
+  .medical-card {
+    @apply bg-card rounded-xl shadow-sm border border-border/50 p-4 md:p-6 transition-all duration-200;
+  }
+
+  .medical-card:hover {
+    @apply shadow-md border-primary/20;
+  }
+
+  /* Staging Badge Styles */
+  .staging-badge {
+    @apply inline-flex items-center justify-center px-3 py-1.5 rounded-full text-sm font-semibold;
+  }
+
+  .staging-t {
+    @apply bg-[hsl(var(--staging-t)/0.15)] text-[hsl(var(--staging-t))];
+  }
+
+  .staging-n {
+    @apply bg-[hsl(var(--staging-n)/0.15)] text-[hsl(var(--staging-n))];
+  }
+
+  .staging-m {
+    @apply bg-[hsl(var(--staging-m)/0.15)] text-[hsl(var(--staging-m))];
+  }
+
+  /* Treatment Type Badges */
+  .treatment-neoadjuvant {
+    @apply bg-[hsl(var(--neoadjuvant)/0.15)] text-[hsl(var(--neoadjuvant))] border border-[hsl(var(--neoadjuvant)/0.3)];
+  }
+
+  .treatment-adjuvant {
+    @apply bg-[hsl(var(--adjuvant)/0.15)] text-[hsl(var(--adjuvant))] border border-[hsl(var(--adjuvant)/0.3)];
+  }
+
+  /* Glass Effect */
+  .glass {
+    @apply bg-background/80 backdrop-blur-lg;
+  }
+
+  /* Gradient backgrounds */
+  .gradient-medical {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  }
+
+  .gradient-card {
+    background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(var(--muted)/0.5) 100%);
+  }
+
+  /* Focus ring */
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+}
+
+@layer utilities {
+  /* Responsive text */
+  .text-responsive {
+    @apply text-sm md:text-base;
+  }
+
+  .text-responsive-lg {
+    @apply text-base md:text-lg lg:text-xl;
+  }
+
+  /* Safe area padding for mobile */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from { 
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to { 
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
