@@ -1,11 +1,11 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
-import { 
-  LayoutDashboard, 
-  FilePlus, 
-  FolderOpen, 
-  BookOpen, 
+import {
+  LayoutDashboard,
+  FilePlus,
+  FolderOpen,
+  BookOpen,
   Settings,
   X,
   Stethoscope
@@ -22,17 +22,15 @@ export function Navigation({ mobile = false, onClose }: NavigationProps) {
   const location = useLocation();
 
   const navItems = [
-    { path: '/', icon: LayoutDashboard, label: t('nav.dashboard') },
     { path: '/new-case', icon: FilePlus, label: t('nav.newCase') },
     { path: '/post-op-case', icon: Stethoscope, label: t('nav.postOpCase') },
-    { path: '/cases', icon: FolderOpen, label: t('nav.cases') },
     { path: '/references', icon: BookOpen, label: t('nav.references') },
     { path: '/settings', icon: Settings, label: t('nav.settings') },
   ];
 
   const NavItem = ({ path, icon: Icon, label }: typeof navItems[0]) => {
     const isActive = location.pathname === path;
-    
+
     return (
       <NavLink
         to={path}
