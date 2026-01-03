@@ -1,6 +1,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { TreatmentRecommendation, TreatmentOption } from '@/lib/treatmentEngine';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 import {
   Accordion,
   AccordionContent,
@@ -128,13 +129,14 @@ function TreatmentCard({ treatment }: { treatment: TreatmentOption }) {
           <div className="pt-2 border-t">
             <div className="flex flex-wrap gap-2">
               {treatment.references.map((ref, i) => (
-                <span
+                <Link
                   key={i}
-                  className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground"
+                  to="/references"
+                  className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors cursor-pointer border border-primary/20"
                 >
                   <ExternalLink className="h-3 w-3" />
                   {ref.source} {ref.version}
-                </span>
+                </Link>
               ))}
             </div>
           </div>
