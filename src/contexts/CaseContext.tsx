@@ -20,7 +20,8 @@ export interface TNMData {
 }
 
 export interface PathologyData {
-  histology: 'clearCell' | 'papillary' | 'chromophobe' | 'sarcomatoid' | 'other' | null;
+  histology: 'clearCell' | 'papillary' | 'chromophobe' | 'sarcomatoid' | 'other' |
+  'wilms-low' | 'wilms-intermediate' | 'wilms-high' | 'mesoblastic' | null;
   grade: 1 | 2 | 3 | 4 | null;
   tumorSize: number | null;
   marginStatus: 'negative' | 'positive' | 'close' | null;
@@ -28,6 +29,10 @@ export interface PathologyData {
   lymphNodeInvasion: boolean;
   sarcomatoidFeatures: boolean;
   necrosis: boolean;
+  // Pediatric/Wilms specific
+  isRuptured?: boolean;
+  isBilateral?: boolean;
+  wilmsType?: 'necrotic' | 'epithelial' | 'stromal' | 'mixed' | 'regressive' | 'blastemal' | 'anaplastic' | null;
 }
 
 export interface PreOpData {
@@ -46,7 +51,7 @@ export interface PostOpTNMData {
 export interface CaseData {
   id: string;
   caseType: 'primary' | 'postOp';
-  cancerType: 'kidney' | null;
+  cancerType: 'kidney' | 'wilms' | null;
   patient: PatientData;
   tumor: TumorData;
   tnm: TNMData;
@@ -69,7 +74,7 @@ interface CaseContextType {
   updatePathologyData: (data: Partial<PathologyData>) => void;
   updatePreOpData: (data: Partial<PreOpData>) => void;
   updatePostOpTNMData: (data: Partial<PostOpTNMData>) => void;
-  setCancerType: (type: 'kidney') => void;
+  setCancerType: (type: 'kidney' | 'wilms') => void;
   setCaseType: (type: 'primary' | 'postOp') => void;
   setStage: (stage: string) => void;
   saveCase: () => void;
@@ -214,7 +219,7 @@ export function CaseProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const setCancerType = (type: 'kidney') => {
+  const setCancerType = (type: 'kidney' | 'wilms') => {
     if (!currentCase) return;
     setCurrentCase({
       ...currentCase,

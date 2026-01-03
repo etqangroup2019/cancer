@@ -10,7 +10,7 @@ export interface StagingResult {
 // Kidney Cancer (RCC) Staging based on AJCC 8th Edition
 export function calculateKidneyStage(tnm: TNMData): StagingResult | null {
   const { t, n, m } = tnm;
-  
+
   if (!t || !n || !m) {
     return null;
   }
@@ -74,7 +74,7 @@ export function calculateKidneyStage(tnm: TNMData): StagingResult | null {
     } else {
       t3Factors.push('Tumor extends into major veins or perinephric tissues');
     }
-    
+
     return {
       stage: 'III',
       stageNumeric: 3,
@@ -137,7 +137,7 @@ export function calculatePostOpKidneyStage(
   pathology?: PathologyData
 ): StagingResult | null {
   const { pT, pN, pM } = postOpTNM;
-  
+
   if (!pT || !pN) {
     return null;
   }
@@ -225,7 +225,7 @@ export function calculatePostOpKidneyStage(
     } else if (tValue === 't3c') {
       t3Factors.push('Tumor in vena cava above diaphragm (pT3c)');
     }
-    
+
     return {
       stage: 'III',
       stageNumeric: 3,
@@ -282,6 +282,91 @@ export function calculatePostOpKidneyStage(
     ],
   };
 }
+
+// SIOP-RTSG 2016 Pediatric Kidney Tumor Staging
+export function calculateWilmsStage(
+  postOpTNM: PostOpTNMData,
+  pathology?: PathologyData
+): StagingResult | null {
+  const { pT, pN, pM } = postOpTNM;
+
+  if (!pT && !pathology) {
+    return null;
+  }
+
+  const factors: string[] = [];
+
+  // Stage V: Bilateral tumors
+  if (pathology?.isBilateral) {
+    return {
+      stage: 'V',
+      stageNumeric: 5,
+      explanation: 'Stage V due to bilateral renal involvement',
+      factors: ['Bilateral renal tumors (Stage V)', 'Requires nephron-sparing approaches'],
+    };
+  }
+
+  // Stage IV: Distant metastasis
+  if (pM === 'pM1' || pM === 'M1') {
+    return {
+      stage: 'IV',
+      stageNumeric: 4,
+      explanation: 'Stage IV due to distant hematogenous metastasis',
+      factors: ['Distant metastasis present (Lung, Liver, etc.)'],
+    };
+  }
+
+  // Stage III: Residual tumor confined to abdomen
+  const isStageIII =
+    pN === 'pN1' ||
+    pathology?.isRuptured ||
+    pathology?.marginStatus === 'positive' ||
+    (pT === 'pT3'); // pT3 in Wilms often implies stage III
+
+  if (isStageIII) {
+    const stageIIIFactors = [];
+    if (pN === 'pN1') stageIIIFactors.push('Posivite regional lymph nodes');
+    if (pathology?.isRuptured) stageIIIFactors.push('Tumor rupture (Pre or Intra-operative)');
+    if (pathology?.marginStatus === 'positive') stageIIIFactors.push('Positive surgical margins');
+
+    return {
+      stage: 'III',
+      stageNumeric: 3,
+      explanation: 'Stage III: Residual non-hematogenous tumor confined to abdomen',
+      factors: stageIIIFactors,
+    };
+  }
+
+  // Stage II: Extends beyond kidney but completely excised
+  const isStageII = pT === 'pT2';
+  if (isStageII) {
+    return {
+      stage: 'II',
+      stageNumeric: 2,
+      explanation: 'Stage II: Tumor extends beyond the kidney but is completely excised',
+      factors: [
+        'Perirenal fat invasion or renal sinus invasion',
+        'Completely excised capsules',
+        'No lymph node involvement',
+      ],
+    };
+  }
+
+  // Stage I: Limited to kidney and completely excised
+  return {
+    stage: 'I',
+    stageNumeric: 1,
+    explanation: 'Stage I: Tumor is limited to the kidney and completely excised',
+    factors: [
+      'Capsule intact',
+      'No rupture',
+      'No lymph node or vascular involvement',
+    ],
+  };
+}
+
+// Default export if needed or keep named exports
+
 
 export function getStageColor(stageNumeric: number): string {
   switch (stageNumeric) {

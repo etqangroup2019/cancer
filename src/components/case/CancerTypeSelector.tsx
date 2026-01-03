@@ -12,9 +12,9 @@ interface CancerType {
 
 const cancerTypes: CancerType[] = [
   { id: 'kidney', nameKey: 'cancer.kidney', descKey: 'cancer.kidney.desc', icon: '🫘', available: true },
+  { id: 'wilms', nameKey: 'cancer.wilms', descKey: 'cancer.wilms.desc', icon: '🧒', available: true },
   { id: 'breast', nameKey: 'cancer.breast', descKey: 'cancer.breast', icon: '🎀', available: false },
   { id: 'lung', nameKey: 'cancer.lung', descKey: 'cancer.lung', icon: '🫁', available: false },
-  { id: 'colorectal', nameKey: 'cancer.colorectal', descKey: 'cancer.colorectal', icon: '🔬', available: false },
 ];
 
 interface CancerTypeSelectorProps {
@@ -28,7 +28,7 @@ export function CancerTypeSelector({ selected, onSelect }: CancerTypeSelectorPro
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">{t('cancer.select')}</h2>
-      
+
       <div className="grid gap-3 sm:grid-cols-2">
         {cancerTypes.map((type) => (
           <button

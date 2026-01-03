@@ -38,11 +38,19 @@ export function PostOpTNMForm() {
               <SelectValue placeholder={language === 'ar' ? 'اختر pT' : 'Select pT'} />
             </SelectTrigger>
             <SelectContent>
-              {pTValues.map((value) => (
-                <SelectItem key={value} value={value}>
-                  {t(`postop.${value.toLowerCase()}`)}
-                </SelectItem>
-              ))}
+              {currentCase.cancerType === 'wilms' ? (
+                ['pT1', 'pT2', 'pT3'].map((value) => (
+                  <SelectItem key={value} value={value}>
+                    {t(`postop.${value.toLowerCase()}`)}
+                  </SelectItem>
+                ))
+              ) : (
+                pTValues.map((value) => (
+                  <SelectItem key={value} value={value}>
+                    {t(`postop.${value.toLowerCase()}`)}
+                  </SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
         </div>

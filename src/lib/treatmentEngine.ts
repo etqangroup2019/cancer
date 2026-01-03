@@ -387,6 +387,98 @@ const kidneyTreatments: Record<string, TreatmentOption> = {
   },
 };
 
+// SIOP-RTSG 2016 Wilms Tumor Treatment Options
+const wilmsTreatments: Record<string, TreatmentOption> = {
+  preOpVA: {
+    id: 'pre-op-va',
+    type: 'combination',
+    name: { en: 'Pre-op VA (Vincristine + Actinomycin D)', ar: 'علاج VA قبل العملية (فينكريستين + أكتينومايسين د)' },
+    description: { en: 'Standard 4-week pre-operative chemotherapy for localized tumors', ar: 'علاج كيماوي قياسي لمدة 4 أسابيع قبل العملية للأورام الموضعية' },
+    indications: { en: ['Localized pediatric renal tumors', 'Patient age > 6 months'], ar: ['أورام الكلى الموضعية عند الأطفال', 'عمر المريض > 6 أشهر'] },
+    contraindications: { en: ['Patient < 6 months old', 'Suspected clear cell sarcoma or rhabdoid tumor'], ar: ['مريض عمره أقل من 6 أشهر', 'اشتباه في ساركوما الخلايا الصافية أو ورم رابدويد'] },
+    warnings: { en: ['Vincristine neurotoxicity', 'Actinomycin D liver toxicity'], ar: ['سمية عصبية من الفينكريستين', 'سمية كبدية من الأكتينومايسين د'] },
+    notes: { en: ['Standard for SIOP protocols', 'Goal is tumor shrinkage to reduce rupture risk'], ar: ['معيار بروتوكولات SIOP', 'الهدف هو تصغير الورم لتقليل خطر الانفجار'] },
+    references: [{ source: 'WHO', version: 'SIOP-RTSG 2016', year: 2016 }],
+  },
+  postOpVA_9w: {
+    id: 'post-op-va-9w',
+    type: 'combination',
+    name: { en: 'Post-op VA (9 Weeks)', ar: 'علاج VA بعد العملية (9 أسابيع)' },
+    description: { en: 'Short courses of Vincristine and Actinomycin D', ar: 'دورات قصيرة من فينكريستين وأكتينومايسين د' },
+    indications: { en: ['Stage I Intermediate Risk', 'Stage I Low Risk (some cases)'], ar: ['المرحلة الأولى خطر متوسط', 'المرحلة الأولى خطر منخفض (في بعض الحالات)'] },
+    contraindications: { en: [], ar: [] },
+    warnings: { en: [], ar: [] },
+    notes: { en: ['Reduced intensity for favorable stages'], ar: ['كثافة منخفضة للمراحل المفضلة'] },
+    references: [{ source: 'WHO', version: 'SIOP-RTSG 2016', year: 2016 }],
+  },
+  postOpVAD_28w: {
+    id: 'post-op-vad-28w',
+    type: 'combination',
+    name: { en: 'Post-op VAD (28 Weeks)', ar: 'علاج VAD بعد العملية (28 أسبوع)' },
+    description: { en: 'Vincristine + Actinomycin D + Doxorubicin intensified regimen', ar: 'نظام مكثف من فينكريستين + أكتينومايسين د + دوكسوروبيسين' },
+    indications: { en: ['Stage III Intermediate Risk', 'Stage II/III High Risk'], ar: ['المرحلة الثالثة خطر متوسط', 'المرحلة الثانية/الثالثة خطر عالٍ'] },
+    contraindications: { en: [], ar: [] },
+    warnings: { en: ['Cardiotoxicity from Doxorubicin'], ar: ['سمية لقلب من دوكسوروبيسين'] },
+    notes: { en: ['Requires cardiac monitoring (Echo)'], ar: ['يتطلب مراقبة للقلب (إيكو)'] },
+    references: [{ source: 'WHO', version: 'SIOP-RTSG 2016', year: 2016 }],
+  },
+  radiotherapyAbdominal: {
+    id: 'radiotherapy-abdominal',
+    type: 'combination', // Using combination as a catch-all for now
+    name: { en: 'Abdominal Radiotherapy', ar: 'العلاج الإشعاعي للبطن' },
+    description: { en: 'Local radiation to the tumor bed', ar: 'إشعاع موضعي لمكان الورم' },
+    indications: { en: ['Stage III Intermediate Risk', 'Any Stage High Risk (except Stage I LR)'], ar: ['المرحلة الثالثة خطر متوسط', 'أي مرحلة خطر عالٍ (عدا المرحلة الأولى منخفضة الخطر)'] },
+    contraindications: { en: [], ar: [] },
+    warnings: { en: ['Late effects on growth and secondary malignancies'], ar: ['تأثيرات متأخرة على النمو وأورام ثانوية'] },
+    notes: { en: ['Flank radiation or whole abdomen if diffuse contamination'], ar: ['إشعاع للجنب أو كامل البطن في حال التلوث المنتشر'] },
+    references: [{ source: 'WHO', version: 'SIOP-RTSG 2016', year: 2016 }],
+  },
+};
+
+export function getWilmsTreatmentRecommendations(
+  caseData: CaseData,
+  staging: StagingResult
+): TreatmentRecommendation {
+  const recommendation: TreatmentRecommendation = {
+    neoadjuvant: [],
+    adjuvant: [],
+    primaryTreatment: [],
+    alternativeOptions: [],
+  };
+
+  const { stageNumeric } = staging;
+  const pathology = caseData.pathology;
+  const histology = pathology?.histology;
+
+  // Pre-operative is standard for SIOP unless age < 6m
+  recommendation.neoadjuvant.push(wilmsTreatments.preOpVA);
+
+  // Post-operative decisions
+  if (stageNumeric === 1) {
+    if (histology === 'wilms-low') {
+      recommendation.primaryTreatment.push({ ...wilmsTreatments.postOpVA_9w, name: { en: 'Observation or 4w VA', ar: 'الملاحظة أو 4 أسابيع VA' } });
+    } else {
+      recommendation.adjuvant.push(wilmsTreatments.postOpVA_9w);
+    }
+  } else if (stageNumeric === 2) {
+    if (histology === 'wilms-high') {
+      recommendation.adjuvant.push(wilmsTreatments.postOpVAD_28w);
+      recommendation.adjuvant.push(wilmsTreatments.radiotherapyAbdominal);
+    } else {
+      recommendation.adjuvant.push(wilmsTreatments.postOpVA_9w);
+    }
+  } else if (stageNumeric === 3) {
+    recommendation.adjuvant.push(wilmsTreatments.postOpVAD_28w);
+    recommendation.adjuvant.push(wilmsTreatments.radiotherapyAbdominal);
+  } else if (stageNumeric === 4) {
+    recommendation.adjuvant.push(wilmsTreatments.postOpVAD_28w);
+    // Plus pulmonary RT if lung mets
+  }
+
+  return recommendation;
+}
+
+
 export function getKidneyTreatmentRecommendations(
   caseData: CaseData,
   staging: StagingResult
@@ -418,7 +510,7 @@ export function getKidneyTreatmentRecommendations(
   if (stageNumeric === 2) {
     recommendation.primaryTreatment.push(kidneyTreatments.radicalNephrectomy);
     recommendation.alternativeOptions.push(kidneyTreatments.partialNephrectomy);
-    
+
     // Adjuvant for high-grade
     if (histology === 'clearCell' && grade && grade >= 3) {
       recommendation.adjuvant.push(kidneyTreatments.pembrolizumab);
@@ -428,7 +520,7 @@ export function getKidneyTreatmentRecommendations(
   // Stage III
   if (stageNumeric === 3) {
     recommendation.primaryTreatment.push(kidneyTreatments.radicalNephrectomy);
-    
+
     // Adjuvant pembrolizumab for clear cell
     if (histology === 'clearCell') {
       recommendation.adjuvant.push(kidneyTreatments.pembrolizumab);
@@ -438,7 +530,7 @@ export function getKidneyTreatmentRecommendations(
   // Stage IV
   if (stageNumeric === 4) {
     recommendation.primaryTreatment.push(kidneyTreatments.systemicTherapyAdvanced);
-    
+
     // Cytoreductive nephrectomy as alternative in selected cases
     recommendation.alternativeOptions.push(kidneyTreatments.radicalNephrectomy);
   }
@@ -465,7 +557,7 @@ export function getPostOpTreatmentRecommendations(
   const pT = caseData.postOpTNM?.pT?.toLowerCase() || '';
 
   // High-risk features that warrant adjuvant therapy
-  const hasHighRiskFeatures = 
+  const hasHighRiskFeatures =
     pathology?.sarcomatoidFeatures ||
     pathology?.vascularInvasion ||
     pathology?.marginStatus === 'positive' ||

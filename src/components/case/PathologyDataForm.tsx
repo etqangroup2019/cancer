@@ -35,14 +35,49 @@ export function PathologyDataForm() {
               <SelectValue placeholder={language === 'ar' ? 'اختر النوع' : 'Select type'} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="clearCell">{t('tumor.clearCell')}</SelectItem>
-              <SelectItem value="papillary">{t('tumor.papillary')}</SelectItem>
-              <SelectItem value="chromophobe">{t('tumor.chromophobe')}</SelectItem>
-              <SelectItem value="sarcomatoid">{t('pathology.sarcomatoid')}</SelectItem>
+              {currentCase.cancerType === 'wilms' ? (
+                <>
+                  <SelectItem value="wilms-low">{language === 'ar' ? 'خطر منخفض' : 'Low Risk'}</SelectItem>
+                  <SelectItem value="wilms-intermediate">{language === 'ar' ? 'خطر متوسط' : 'Intermediate Risk'}</SelectItem>
+                  <SelectItem value="wilms-high">{language === 'ar' ? 'خطر عالٍ' : 'High Risk'}</SelectItem>
+                  <SelectItem value="mesoblastic">{language === 'ar' ? 'ميزوبلاستيك' : 'Mesoblastic nephroma'}</SelectItem>
+                </>
+              ) : (
+                <>
+                  <SelectItem value="clearCell">{t('tumor.clearCell')}</SelectItem>
+                  <SelectItem value="papillary">{t('tumor.papillary')}</SelectItem>
+                  <SelectItem value="chromophobe">{t('tumor.chromophobe')}</SelectItem>
+                  <SelectItem value="sarcomatoid">{t('pathology.sarcomatoid')}</SelectItem>
+                </>
+              )}
               <SelectItem value="other">{t('tumor.other')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
+
+        {/* Wilms Type (Detailed) */}
+        {currentCase.cancerType === 'wilms' && (
+          <div className="space-y-2">
+            <Label>{language === 'ar' ? 'نوع النسيج (SIOP)' : 'SIOP Histology Type'}</Label>
+            <Select
+              value={pathology?.wilmsType || ''}
+              onValueChange={(value) => updatePathologyData({ wilmsType: value as any })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={language === 'ar' ? 'اختر النوع الدقيق' : 'Select specific type'} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="necrotic">{language === 'ar' ? 'نخر كامل' : 'Completely Necrotic'}</SelectItem>
+                <SelectItem value="epithelial">{language === 'ar' ? 'ظهاري' : 'Epithelial predominant'}</SelectItem>
+                <SelectItem value="stromal">{language === 'ar' ? 'سدوي' : 'Stromal predominant'}</SelectItem>
+                <SelectItem value="mixed">{language === 'ar' ? 'مختلط' : 'Mixed type'}</SelectItem>
+                <SelectItem value="regressive">{language === 'ar' ? 'تراجعي' : 'Regressive type'}</SelectItem>
+                <SelectItem value="blastemal">{language === 'ar' ? 'برعمي (عالي الخطر)' : 'Blastemal (High risk)'}</SelectItem>
+                <SelectItem value="anaplastic">{language === 'ar' ? 'فقد تمايز (عالي الخطر)' : 'Diffuse anaplasia'}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* Grade */}
         <div className="space-y-2">
@@ -147,6 +182,42 @@ export function PathologyDataForm() {
           onCheckedChange={(checked) => updatePathologyData({ necrosis: checked })}
         />
       </div>
+
+      {currentCase.cancerType === 'wilms' && (
+        <>
+          {/* Tumor Rupture */}
+          <div className="flex items-center justify-between rounded-lg border p-4 border-warning/50 bg-warning/5">
+            <div className="space-y-0.5">
+              <Label className="text-base text-warning-foreground">
+                {language === 'ar' ? 'انفجار الورم' : 'Tumor Rupture'}
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                {language === 'ar' ? 'سواء قبل العملية أو أثناءها' : 'Either pre-operative or intra-operative'}
+              </p>
+            </div>
+            <Switch
+              checked={pathology?.isRuptured || false}
+              onCheckedChange={(checked) => updatePathologyData({ isRuptured: checked })}
+            />
+          </div>
+
+          {/* Bilateral Tumors */}
+          <div className="flex items-center justify-between rounded-lg border p-4 border-info/50 bg-info/5">
+            <div className="space-y-0.5">
+              <Label className="text-base text-info-foreground">
+                {language === 'ar' ? 'أورام ثنائية الجانب' : 'Bilateral Tumors'}
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                {language === 'ar' ? 'إصابة كلتا الكليتين (المرحلة الخامسة)' : 'Involvement of both kidneys (Stage V)'}
+              </p>
+            </div>
+            <Switch
+              checked={pathology?.isBilateral || false}
+              onCheckedChange={(checked) => updatePathologyData({ isBilateral: checked })}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

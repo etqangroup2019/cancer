@@ -8,8 +8,8 @@ import { PathologyDataForm } from '@/components/case/PathologyDataForm';
 import { PostOpTNMForm } from '@/components/case/PostOpTNMForm';
 import { StagingResult } from '@/components/case/StagingResult';
 import { TreatmentRecommendations } from '@/components/case/TreatmentRecommendations';
-import { calculatePostOpKidneyStage, StagingResult as StagingResultType } from '@/lib/stagingEngine';
-import { getPostOpTreatmentRecommendations, TreatmentRecommendation } from '@/lib/treatmentEngine';
+import { calculatePostOpKidneyStage, calculateWilmsStage, StagingResult as StagingResultType } from '@/lib/stagingEngine';
+import { getPostOpTreatmentRecommendations, getWilmsTreatmentRecommendations, TreatmentRecommendation } from '@/lib/treatmentEngine';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { ArrowRight, ArrowLeft, Calculator, Pill, RotateCcw } from 'lucide-react';
@@ -37,13 +37,21 @@ export default function PostOpCase() {
     setSelectedCancer(id);
     if (id === 'kidney') {
       setCancerType('kidney');
+    } else if (id === 'wilms') {
+      setCancerType('wilms');
     }
   };
 
   const handleCalculateStaging = () => {
     if (!currentCase?.postOpTNM) return;
 
-    const result = calculatePostOpKidneyStage(currentCase.postOpTNM, currentCase.pathology);
+    let result: StagingResultType | null = null;
+    if (currentCase.cancerType === 'kidney') {
+      result = calculatePostOpKidneyStage(currentCase.postOpTNM, currentCase.pathology);
+    } else if (currentCase.cancerType === 'wilms') {
+      result = calculateWilmsStage(currentCase.postOpTNM, currentCase.pathology);
+    }
+
     if (result) {
       setStagingResult(result);
       setStage(result.stage);
@@ -54,7 +62,13 @@ export default function PostOpCase() {
   const handleGetRecommendations = () => {
     if (!currentCase || !stagingResult) return;
 
-    const recs = getPostOpTreatmentRecommendations(currentCase, stagingResult);
+    let recs: TreatmentRecommendation | null = null;
+    if (currentCase.cancerType === 'kidney') {
+      recs = getPostOpTreatmentRecommendations(currentCase, stagingResult);
+    } else if (currentCase.cancerType === 'wilms') {
+      recs = getWilmsTreatmentRecommendations(currentCase, stagingResult);
+    }
+
     setRecommendations(recs);
     setStep(5);
   };
@@ -73,9 +87,9 @@ export default function PostOpCase() {
       case 0:
         return !!selectedCancer;
       case 1:
-        return !!(currentCase?.patient.age && currentCase?.preOp?.surgeryType);
+        return !!(currentCase?.patient.age && (currentCase?.preOp?.surgeryType || currentCase?.cancerType === 'wilms'));
       case 2:
-        return !!(currentCase?.pathology?.histology && currentCase?.pathology?.grade);
+        return !!(currentCase?.pathology?.histology);
       case 3:
         return !!(currentCase?.postOpTNM?.pT && currentCase?.postOpTNM?.pN);
       case 4:
@@ -102,8 +116,27 @@ export default function PostOpCase() {
     }
   };
 
+  const renderStep = () => {
+    switch (step) {
+      case 0:
+        return <CancerTypeSelector selected={selectedCancer} onSelect={handleCancerSelect} />;
+      case 1:
+        return <PreOpDataForm />;
+      case 2:
+        return <PathologyDataForm />;
+      case 3:
+        return <PostOpTNMForm />;
+      case 4:
+        return stagingResult ? <StagingResult result={stagingResult} /> : null;
+      case 5:
+        return recommendations ? <TreatmentRecommendations recommendations={recommendations} /> : null;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
+    <div className="max-w-4xl mx-auto space-y-8 pb-10">
       {/* Header */}
       <div className="text-center space-y-2">
         <h1 className="text-2xl font-bold">
@@ -111,8 +144,8 @@ export default function PostOpCase() {
         </h1>
         <p className="text-muted-foreground">
           {language === 'ar'
-            ? 'تقييم العلاج المساعد بناءً على نتائج العينة النسيجية'
-            : 'Adjuvant therapy assessment based on pathology results'}
+            ? 'تحديد خطة العلاج المكمل بناءً على نتائج العينة'
+            : 'Determine adjuvant treatment based on pathology results'}
         </p>
       </div>
 
@@ -129,59 +162,45 @@ export default function PostOpCase() {
         <Progress value={progress} className="h-2" />
       </div>
 
-      {/* Content */}
-      <div className="medical-card">
-        {step === 0 && (
-          <CancerTypeSelector selected={selectedCancer} onSelect={handleCancerSelect} />
-        )}
-        {step === 1 && <PreOpDataForm />}
-        {step === 2 && <PathologyDataForm />}
-        {step === 3 && <PostOpTNMForm />}
-        {step === 4 && stagingResult && <StagingResult result={stagingResult} />}
-        {step === 5 && recommendations && (
-          <TreatmentRecommendations recommendations={recommendations} />
-        )}
+      <div className="min-h-[400px]">
+        {renderStep()}
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between pt-6 border-t">
         <Button
           variant="outline"
-          onClick={() => setStep(Math.max(0, step - 1))}
+          onClick={() => setStep(prev => prev - 1)}
           disabled={step === 0}
         >
           <BackIcon className="h-4 w-4 me-2" />
           {t('action.back')}
         </Button>
 
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           {step === 5 && (
-            <Button variant="outline" onClick={handleReset} className="w-full sm:w-auto">
+            <Button variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4 me-2" />
               {t('action.reset')}
             </Button>
           )}
 
-          {step === 3 && (
+          {step === 3 ? (
             <Button onClick={handleCalculateStaging} disabled={!canProceed()}>
               <Calculator className="h-4 w-4 me-2" />
               {t('action.calculate')}
             </Button>
-          )}
-
-          {step === 4 && (
-            <Button onClick={handleGetRecommendations}>
+          ) : step === 4 ? (
+            <Button onClick={handleGetRecommendations} disabled={!canProceed()}>
               <Pill className="h-4 w-4 me-2" />
               {t('action.getRecommendations')}
             </Button>
-          )}
-
-          {step < 3 && (
-            <Button onClick={() => setStep(step + 1)} disabled={!canProceed()}>
+          ) : step < 5 ? (
+            <Button onClick={() => setStep(prev => prev + 1)} disabled={!canProceed()}>
               {t('action.next')}
               <NextIcon className="h-4 w-4 ms-2" />
             </Button>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
