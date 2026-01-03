@@ -159,16 +159,10 @@ export default function NewCase() {
 
         <div className="flex gap-2">
           {step === 5 && (
-            <>
-              <Button variant="outline" onClick={handleReset}>
-                <RotateCcw className="h-4 w-4 me-2" />
-                {t('action.reset')}
-              </Button>
-              <Button onClick={handleSave}>
-                <Save className="h-4 w-4 me-2" />
-                {t('action.save')}
-              </Button>
-            </>
+            <Button variant="outline" onClick={handleReset} className="w-full sm:w-auto">
+              <RotateCcw className="h-4 w-4 me-2" />
+              {t('action.reset')}
+            </Button>
           )}
 
           {step === 3 && (

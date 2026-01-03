@@ -44,7 +44,7 @@ export default function PostOpCase() {
 
   const handleCalculateStaging = () => {
     if (!currentCase?.postOpTNM) return;
-    
+
     const result = calculatePostOpKidneyStage(currentCase.postOpTNM, currentCase.pathology);
     if (result) {
       setStagingResult(result);
@@ -55,7 +55,7 @@ export default function PostOpCase() {
 
   const handleGetRecommendations = () => {
     if (!currentCase || !stagingResult) return;
-    
+
     const recs = getPostOpTreatmentRecommendations(currentCase, stagingResult);
     setRecommendations(recs);
     setStep(6);
@@ -120,7 +120,7 @@ export default function PostOpCase() {
           {language === 'ar' ? 'حالة ما بعد العملية' : 'Post-Operative Case'}
         </h1>
         <p className="text-muted-foreground">
-          {language === 'ar' 
+          {language === 'ar'
             ? 'تقييم العلاج المساعد بناءً على نتائج العينة النسيجية'
             : 'Adjuvant therapy assessment based on pathology results'}
         </p>
@@ -167,16 +167,10 @@ export default function PostOpCase() {
 
         <div className="flex gap-2">
           {step === 6 && (
-            <>
-              <Button variant="outline" onClick={handleReset}>
-                <RotateCcw className="h-4 w-4 me-2" />
-                {t('action.reset')}
-              </Button>
-              <Button onClick={handleSave}>
-                <Save className="h-4 w-4 me-2" />
-                {t('action.save')}
-              </Button>
-            </>
+            <Button variant="outline" onClick={handleReset} className="w-full sm:w-auto">
+              <RotateCcw className="h-4 w-4 me-2" />
+              {t('action.reset')}
+            </Button>
           )}
 
           {step === 4 && (

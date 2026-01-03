@@ -17,17 +17,6 @@ export function PatientDataForm() {
       <h2 className="text-lg font-semibold">{t('patient.data')}</h2>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {/* Case ID */}
-        <div className="space-y-2">
-          <Label htmlFor="caseId">{t('patient.id')}</Label>
-          <Input
-            id="caseId"
-            value={patient.caseId}
-            onChange={(e) => updatePatientData({ caseId: e.target.value })}
-            placeholder="CASE-001"
-          />
-        </div>
-
         {/* Age */}
         <div className="space-y-2">
           <Label htmlFor="age">{t('patient.age')}</Label>
@@ -46,12 +35,12 @@ export function PatientDataForm() {
         </div>
 
         {/* Gender */}
-        <div className="space-y-2 sm:col-span-2">
+        <div className="space-y-2">
           <Label>{t('patient.gender')}</Label>
           <RadioGroup
             value={patient.gender ?? ''}
             onValueChange={(value) => updatePatientData({ gender: value as 'male' | 'female' })}
-            className="flex gap-4"
+            className="flex gap-4 h-10 items-center"
           >
             <div className="flex items-center space-x-2 rtl:space-x-reverse">
               <RadioGroupItem value="male" id="male" />
@@ -66,24 +55,6 @@ export function PatientDataForm() {
               </Label>
             </div>
           </RadioGroup>
-        </div>
-
-        {/* Comorbidities */}
-        <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="comorbidities">
-            {t('patient.comorbidities')}
-            <span className="text-xs text-muted-foreground ms-2">({t('misc.optional')})</span>
-          </Label>
-          <Input
-            id="comorbidities"
-            value={patient.comorbidities.join(', ')}
-            onChange={(e) =>
-              updatePatientData({
-                comorbidities: e.target.value.split(',').map((s) => s.trim()).filter(Boolean),
-              })
-            }
-            placeholder="Diabetes, Hypertension..."
-          />
         </div>
       </div>
     </div>
