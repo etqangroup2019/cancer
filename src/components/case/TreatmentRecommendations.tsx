@@ -52,13 +52,13 @@ function TreatmentCard({ treatment }: { treatment: TreatmentOption }) {
   return (
     <AccordionItem value={treatment.id} className="border rounded-lg px-4 mb-3">
       <AccordionTrigger className="hover:no-underline py-4">
-        <div className="flex items-center gap-3 text-start">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+        <div className="flex items-start gap-3 text-start w-full">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary flex-shrink-0 mt-0.5">
             {getIcon()}
           </div>
-          <div>
-            <p className="font-medium">{name}</p>
-            <p className="text-sm text-muted-foreground line-clamp-1">{description}</p>
+          <div className="flex-1 min-w-0">
+            <p className="font-medium text-base sm:text-lg leading-tight mb-1">{name}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
           </div>
         </div>
       </AccordionTrigger>
