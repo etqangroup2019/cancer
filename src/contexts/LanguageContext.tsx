@@ -18,24 +18,13 @@ const translations: Record<Language, Record<string, string>> = {
     'app.disclaimer': 'تنبيه مهم',
     'app.disclaimer.text': 'هذا التطبيق ليس أداة تشخيص ولا يُغني عن الطبيب. هو نظام دعم قرار سريري مبني على إرشادات الأورام العالمية فقط.',
     'app.disclaimer.accept': 'أفهم وأوافق',
-    
+
     // Navigation
-    'nav.dashboard': 'لوحة التحكم',
     'nav.newCase': 'حالة جديدة',
     'nav.postOpCase': 'ما بعد العملية',
-    'nav.cases': 'الحالات',
     'nav.references': 'المراجع',
     'nav.settings': 'الإعدادات',
-    
-    // Dashboard
-    'dashboard.welcome': 'مرحباً بك',
-    'dashboard.quickAccess': 'الوصول السريع',
-    'dashboard.recentCases': 'الحالات الأخيرة',
-    'dashboard.statistics': 'إحصائيات',
-    'dashboard.totalCases': 'إجمالي الحالات',
-    'dashboard.thisMonth': 'هذا الشهر',
-    'dashboard.pendingReview': 'في انتظار المراجعة',
-    
+
     // Cancer Types
     'cancer.select': 'اختر نوع السرطان',
     'cancer.kidney': 'سرطان الكلى',
@@ -44,7 +33,7 @@ const translations: Record<Language, Record<string, string>> = {
     'cancer.lung': 'سرطان الرئة',
     'cancer.colorectal': 'سرطان القولون والمستقيم',
     'cancer.comingSoon': 'قريباً',
-    
+
     // Patient Data
     'patient.data': 'بيانات المريض',
     'patient.id': 'معرّف الحالة',
@@ -53,7 +42,7 @@ const translations: Record<Language, Record<string, string>> = {
     'patient.male': 'ذكر',
     'patient.female': 'أنثى',
     'patient.comorbidities': 'الأمراض المصاحبة',
-    
+
     // Tumor Data
     'tumor.data': 'بيانات الورم',
     'tumor.size': 'حجم الورم',
@@ -63,14 +52,14 @@ const translations: Record<Language, Record<string, string>> = {
     'tumor.papillary': 'حليمي',
     'tumor.chromophobe': 'كاره للصبغة',
     'tumor.other': 'أخرى',
-    
+
     // TNM Staging
     'tnm.title': 'تصنيف TNM',
     'tnm.t': 'الورم الأولي (T)',
     'tnm.n': 'العقد اللمفاوية (N)',
     'tnm.m': 'النقائل البعيدة (M)',
     'tnm.stage': 'المرحلة',
-    
+
     // TNM Values
     'tnm.tx': 'TX - لا يمكن تقييم الورم الأولي',
     'tnm.t0': 'T0 - لا دليل على ورم أولي',
@@ -85,21 +74,21 @@ const translations: Record<Language, Record<string, string>> = {
     'tnm.t3b': 'T3b - امتداد للوريد الأجوف تحت الحجاب',
     'tnm.t3c': 'T3c - امتداد للوريد الأجوف فوق الحجاب أو جداره',
     'tnm.t4': 'T4 - غزو ما بعد لفافة جيروتا',
-    
+
     'tnm.nx': 'NX - لا يمكن تقييم العقد اللمفاوية',
     'tnm.n0': 'N0 - لا نقائل للعقد اللمفاوية',
     'tnm.n1': 'N1 - نقائل للعقد اللمفاوية الإقليمية',
-    
+
     'tnm.mx': 'MX - لا يمكن تقييم النقائل البعيدة',
     'tnm.m0': 'M0 - لا نقائل بعيدة',
     'tnm.m1': 'M1 - نقائل بعيدة موجودة',
-    
+
     // Stages
     'stage.i': 'المرحلة الأولى',
     'stage.ii': 'المرحلة الثانية',
     'stage.iii': 'المرحلة الثالثة',
     'stage.iv': 'المرحلة الرابعة',
-    
+
     // Treatment
     'treatment.title': 'التوصيات العلاجية',
     'treatment.neoadjuvant': 'علاج قبل الجراحة',
@@ -114,7 +103,7 @@ const translations: Record<Language, Record<string, string>> = {
     'treatment.contraindications': 'موانع الاستخدام',
     'treatment.warnings': 'تحذيرات',
     'treatment.notes': 'ملاحظات للطبيب',
-    
+
     // Pathology (Post-Op)
     'pathology.title': 'نتيجة العينة النسيجية',
     'pathology.histology': 'نوع النسيج',
@@ -137,7 +126,7 @@ const translations: Record<Language, Record<string, string>> = {
     'pathology.sarcomatoidFeatures.desc': 'وجود تمايز ساركوماتويد في الورم',
     'pathology.necrosis': 'النخر الورمي',
     'pathology.necrosis.desc': 'وجود مناطق نخر في الورم',
-    
+
     // Pre-Op Data
     'preop.title': 'بيانات قبل العملية',
     'preop.desc': 'المعلومات السريرية قبل الجراحة',
@@ -148,7 +137,7 @@ const translations: Record<Language, Record<string, string>> = {
     'preop.partial': 'استئصال جزئي للكلية',
     'preop.radical': 'استئصال كلي للكلية',
     'preop.cytoreductive': 'استئصال تخفيفي',
-    
+
     // Post-Op TNM
     'postop.ptnm.title': 'التصنيف المرضي pTNM',
     'postop.ptnm.desc': 'التصنيف النهائي بناءً على فحص العينة',
@@ -169,7 +158,7 @@ const translations: Record<Language, Record<string, string>> = {
     'postop.pmx': 'pMX - لا يمكن تقييم النقائل',
     'postop.pm0': 'pM0 - لا نقائل بعيدة',
     'postop.pm1': 'pM1 - نقائل بعيدة مؤكدة',
-    
+
     // Actions
     'action.calculate': 'حساب المرحلة',
     'action.getRecommendations': 'الحصول على التوصيات',
@@ -179,7 +168,7 @@ const translations: Record<Language, Record<string, string>> = {
     'action.back': 'رجوع',
     'action.next': 'التالي',
     'action.reset': 'إعادة تعيين',
-    
+
     // Settings
     'settings.language': 'اللغة',
     'settings.theme': 'المظهر',
@@ -187,13 +176,13 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.dark': 'داكن',
     'settings.security': 'الأمان',
     'settings.enablePin': 'تفعيل رمز PIN',
-    
+
     // References
     'ref.nccn': 'إرشادات NCCN',
     'ref.esmo': 'إرشادات ESMO',
     'ref.version': 'الإصدار',
     'ref.lastUpdated': 'آخر تحديث',
-    
+
     // Misc
     'misc.or': 'أو',
     'misc.and': 'و',
@@ -211,24 +200,13 @@ const translations: Record<Language, Record<string, string>> = {
     'app.disclaimer': 'Important Notice',
     'app.disclaimer.text': 'This application is not a diagnostic tool and does not replace physician judgment. It is a clinical decision support system based solely on international oncology guidelines.',
     'app.disclaimer.accept': 'I Understand and Agree',
-    
+
     // Navigation
-    'nav.dashboard': 'Dashboard',
     'nav.newCase': 'New Case',
     'nav.postOpCase': 'Post-Op Case',
-    'nav.cases': 'Cases',
     'nav.references': 'References',
     'nav.settings': 'Settings',
-    
-    // Dashboard
-    'dashboard.welcome': 'Welcome',
-    'dashboard.quickAccess': 'Quick Access',
-    'dashboard.recentCases': 'Recent Cases',
-    'dashboard.statistics': 'Statistics',
-    'dashboard.totalCases': 'Total Cases',
-    'dashboard.thisMonth': 'This Month',
-    'dashboard.pendingReview': 'Pending Review',
-    
+
     // Cancer Types
     'cancer.select': 'Select Cancer Type',
     'cancer.kidney': 'Kidney Cancer',
@@ -237,7 +215,7 @@ const translations: Record<Language, Record<string, string>> = {
     'cancer.lung': 'Lung Cancer',
     'cancer.colorectal': 'Colorectal Cancer',
     'cancer.comingSoon': 'Coming Soon',
-    
+
     // Patient Data
     'patient.data': 'Patient Data',
     'patient.id': 'Case ID',
@@ -246,7 +224,7 @@ const translations: Record<Language, Record<string, string>> = {
     'patient.male': 'Male',
     'patient.female': 'Female',
     'patient.comorbidities': 'Comorbidities',
-    
+
     // Tumor Data
     'tumor.data': 'Tumor Data',
     'tumor.size': 'Tumor Size',
@@ -256,14 +234,14 @@ const translations: Record<Language, Record<string, string>> = {
     'tumor.papillary': 'Papillary',
     'tumor.chromophobe': 'Chromophobe',
     'tumor.other': 'Other',
-    
+
     // TNM Staging
     'tnm.title': 'TNM Classification',
     'tnm.t': 'Primary Tumor (T)',
     'tnm.n': 'Regional Lymph Nodes (N)',
     'tnm.m': 'Distant Metastasis (M)',
     'tnm.stage': 'Stage',
-    
+
     // TNM Values
     'tnm.tx': 'TX - Primary tumor cannot be assessed',
     'tnm.t0': 'T0 - No evidence of primary tumor',
@@ -278,21 +256,21 @@ const translations: Record<Language, Record<string, string>> = {
     'tnm.t3b': 'T3b - Vena cava below diaphragm',
     'tnm.t3c': 'T3c - Vena cava above diaphragm or wall invasion',
     'tnm.t4': 'T4 - Beyond Gerota fascia invasion',
-    
+
     'tnm.nx': 'NX - Regional nodes cannot be assessed',
     'tnm.n0': 'N0 - No regional lymph node metastasis',
     'tnm.n1': 'N1 - Regional lymph node metastasis',
-    
+
     'tnm.mx': 'MX - Distant metastasis cannot be assessed',
     'tnm.m0': 'M0 - No distant metastasis',
     'tnm.m1': 'M1 - Distant metastasis present',
-    
+
     // Stages
     'stage.i': 'Stage I',
     'stage.ii': 'Stage II',
     'stage.iii': 'Stage III',
     'stage.iv': 'Stage IV',
-    
+
     // Treatment
     'treatment.title': 'Treatment Recommendations',
     'treatment.neoadjuvant': 'Neoadjuvant Therapy',
@@ -307,7 +285,7 @@ const translations: Record<Language, Record<string, string>> = {
     'treatment.contraindications': 'Contraindications',
     'treatment.warnings': 'Warnings',
     'treatment.notes': 'Physician Notes',
-    
+
     // Pathology (Post-Op)
     'pathology.title': 'Pathology Results',
     'pathology.histology': 'Histology Type',
@@ -330,7 +308,7 @@ const translations: Record<Language, Record<string, string>> = {
     'pathology.sarcomatoidFeatures.desc': 'Presence of sarcomatoid differentiation',
     'pathology.necrosis': 'Tumor Necrosis',
     'pathology.necrosis.desc': 'Presence of necrotic areas in tumor',
-    
+
     // Pre-Op Data
     'preop.title': 'Pre-Operative Data',
     'preop.desc': 'Clinical information before surgery',
@@ -341,7 +319,7 @@ const translations: Record<Language, Record<string, string>> = {
     'preop.partial': 'Partial Nephrectomy',
     'preop.radical': 'Radical Nephrectomy',
     'preop.cytoreductive': 'Cytoreductive Nephrectomy',
-    
+
     // Post-Op TNM
     'postop.ptnm.title': 'Pathological pTNM Classification',
     'postop.ptnm.desc': 'Final classification based on specimen examination',
@@ -362,7 +340,7 @@ const translations: Record<Language, Record<string, string>> = {
     'postop.pmx': 'pMX - Metastasis cannot be assessed',
     'postop.pm0': 'pM0 - No distant metastasis',
     'postop.pm1': 'pM1 - Distant metastasis confirmed',
-    
+
     // Actions
     'action.calculate': 'Calculate Stage',
     'action.getRecommendations': 'Get Recommendations',
@@ -372,7 +350,7 @@ const translations: Record<Language, Record<string, string>> = {
     'action.back': 'Back',
     'action.next': 'Next',
     'action.reset': 'Reset',
-    
+
     // Settings
     'settings.language': 'Language',
     'settings.theme': 'Theme',
@@ -380,13 +358,13 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.dark': 'Dark',
     'settings.security': 'Security',
     'settings.enablePin': 'Enable PIN Lock',
-    
+
     // References
     'ref.nccn': 'NCCN Guidelines',
     'ref.esmo': 'ESMO Guidelines',
     'ref.version': 'Version',
     'ref.lastUpdated': 'Last Updated',
-    
+
     // Misc
     'misc.or': 'or',
     'misc.and': 'and',
